@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Walking Distance Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 400px;
+      margin: 40px auto;
+    }
+    input, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      font-size: 16px;
+    }
+    #result {
+      margin-top: 20px;
+      padding: 15px;
+      background: #f4f4f4;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Walking Distance</h2>
+
+  <input id="from" placeholder="From postcode (e.g. SW1A 1AA)">
+  <input id="to" placeholder="To postcode (e.g. EC1A 1BB)">
+
+  <button onclick="calculate()">Calculate</button>
+
+  <div id="result"></div>
+
+  <script>
+    async function calculate() {
+      const from = document.getElementById("from").value.trim();
+      const to = document.getElementById("to").value.trim();
+      const result = document.getElementById("result");
+
+      if (!from || !to) {
+        result.textContent = "Please enter both postcodes.";
+        return;
+      }
+
+      result.textContent = "Calculating…";
+
+      try {
+        const url = `https://postcode-walking-distance.mutiur31.workers.dev/?from=${encodeURIComponent(from)}&to=${encodeURIComponent(to)}`;
+        const res = await fetch(url);
+        const data = await res.json();
+
+        if (!res.ok) {
+          throw new Error(data.error || "API error");
+        }
+
+        result.innerHTML = `
+          <strong>From:</strong> ${data.from}<br>
+          <strong>To:</strong> ${data.to}<br><br>
+          🚶 <strong>${data.walking_miles} miles</strong><br>
+          ⏱ <strong>${data.walking_minutes} minutes</strong>
+        `;
+      } catch (err) {
+        result.textContent = err.message;
+      }
+    }
+  </script>
+
+</body>
+</html>
