@@ -354,6 +354,46 @@
       transform: translateY(2px);
     }
 
+    /* ---- CLEAR BUTTON ---- */
+    .clear-bar {
+      display: none;
+      justify-content: flex-start;
+      margin-top: -14px;
+      margin-bottom: 20px;
+    }
+
+    .clear-bar.visible { display: flex; }
+
+    .btn-clear {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 6px 12px;
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: 20px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-muted);
+      cursor: pointer;
+      box-shadow: 0 2px 0 var(--border);
+      transform: translateY(0);
+      transition: all 0.1s;
+    }
+
+    .btn-clear:hover {
+      color: var(--text);
+      background: #fff;
+      box-shadow: 0 1px 0 var(--border);
+      transform: translateY(1px);
+    }
+
+    .btn-clear:active {
+      transform: translateY(2px);
+      box-shadow: none;
+    }
+
     /* ---- ERROR ---- */
     .error-msg {
       background: #fff3f0;
@@ -402,6 +442,13 @@
     </div>
     <button class="btn-primary" onclick="calculateAll()">
       Calculate
+    </button>
+  </div>
+
+  <div class="clear-bar" id="clearBar">
+    <button class="btn-clear" onclick="clearAll()">
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      Clear results
     </button>
   </div>
 
@@ -522,12 +569,21 @@ async function calculateAll() {
         `).join('')}
       </div>`;
 
+    document.getElementById('clearBar').classList.add('visible');
+
   } catch (err) {
     resultsDiv.innerHTML = `<div class="error-msg">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
       ${err.message}
     </div>`;
   }
+}
+
+function clearAll() {
+  document.getElementById('fromPostcode').value = '';
+  document.getElementById('results').innerHTML = '';
+  document.getElementById('clearBar').classList.remove('visible');
+  document.getElementById('fromPostcode').focus();
 }
 
 document.getElementById('fromPostcode').addEventListener('keydown', e => {
