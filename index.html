@@ -4,68 +4,155 @@
   <meta charset="UTF-8">
   <title>Walking Distance Calculator</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      max-width: 400px;
-      margin: 40px auto;
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    input, button { padding: 10px; margin: 5px; }
+    #results { margin-top: 20px; }
+    .card {
+      border: 1px solid #ddd;
+      padding: 12px;
+      margin-bottom: 12px;
+      border-radius: 6px;
     }
-    input, button {
-      width: 100%;
-      padding: 10px;
-      margin-top: 10px;
-      font-size: 16px;
+    .title { font-weight: bold; }
+    .meta { font-size: 14px; color: #555; }
+    .map-btn {
+      margin-top: 8px;
+      background-color: #1a73e8;
+      color: #fff;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 4px;
+      cursor: pointer;
     }
-    #result {
-      margin-top: 20px;
-      padding: 15px;
-      background: #f4f4f4;
+    .map-btn:hover {
+      background-color: #1558b0;
     }
   </style>
 </head>
 <body>
 
-  <h2>Walking Distance</h2>
+<h2>Walking Distance Calculator</h2>
 
-  <input id="from" placeholder="From postcode (e.g. SW1A 1AA)">
-  <input id="to" placeholder="To postcode (e.g. EC1A 1BB)">
+<input type="text" id="fromPostcode" placeholder="Enter your postcode">
+<br>
+<button onclick="calculateAll()">Calculate Walking Distances</button>
 
-  <button onclick="calculate()">Calculate</button>
+<div id="results"></div>
 
-  <div id="result"></div>
+<script>
+// ---------------- FIXED DESTINATIONS ----------------
+const destinations = [
+  { title: "Isle of Dogs Children's Centre (Millwall Park)", postcode: "E14 3BX" },
+  { title: "Children & Family Centre, 45 Kerbey Street", postcode: "E14 6AW" },
+  { title: "Aberfeldy Street, Aberfeldy Village", postcode: "E14 0NU" },
+  { title: "115 Three Colt Street", postcode: "E14 8AP" },
+  { title: "Wapping & Bigland Children’s Centre, 15 Richard Street", postcode: "E1 2JP" },
+  { title: "Ocean Children’s Centre, Whitehorse Road", postcode: "E1 0ND" },
+  { title: "John Smith Children Centre, 90 Stepney Way", postcode: "E1 2EN" },
+  { title: "Shadwell Children’s Centre, 418–422 Cable Street", postcode: "E1 0AF" },
+  { title: "Meath Garden Children's Centre, 1 Smart Street", postcode: "E2 0SN" },
+  { title: "St Bartholomew Gardens, Buckhurst Street", postcode: "E1 5QT" },
+  { title: "Wadeson Street, Cambridge Heath", postcode: "E2 9DL" },
+  { title: "Marner Children's Centre, Devas Street", postcode: "E3 3LL" },
+  { title: "Olga Children's Centre, 25 Medway Road", postcode: "E3 5DS" },
+  { title: "Overland Children's Centre, Parnell Road", postcode: "E3 2RU" },
+  { title: "Mile End Children's Centre, 9 Bede Square", postcode: "E3 4GY" }
+];
 
-  <script>
-    async function calculate() {
-      const from = document.getElementById("from").value.trim();
-      const to = document.getElementById("to").value.trim();
-      const result = document.getElementById("result");
+// ---------------- HELPERS ----------------
+async function getCoords(postcode) {
+  const res = await fetch(
+    `https://api.postcodes.io/postcodes/${encodeURIComponent(postcode)}`
+  );
+  const data = await res.json();
 
-      if (!from || !to) {
-        result.textContent = "Please enter both postcodes.";
-        return;
-      }
+  if (data.status !== 200) {
+    throw new Error("Invalid postcode: " + postcode);
+  }
 
-      result.textContent = "Calculating…";
+  return {
+    lat: data.result.latitude,
+    lon: data.result.longitude
+  };
+}
 
-      try {
-        const url = `https://postcode-walking-distance.mutiur31.workers.dev/?from=${encodeURIComponent(from)}&to=${encodeURIComponent(to)}`;
-        const res = await fetch(url);
-        const data = await res.json();
+// Haversine (km internally)
+function getDistanceKm(lat1, lon1, lat2, lon2) {
+  const R = 6371;
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLon = (lon2 - lon1) * Math.PI / 180;
 
-        if (!res.ok) {
-          throw new Error(data.error || "API error");
-        }
+  const a =
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos(lat1 * Math.PI / 180) *
+    Math.cos(lat2 * Math.PI / 180) *
+    Math.sin(dLon / 2) ** 2;
 
-        result.innerHTML = `
-          <strong>From:</strong> ${data.from}<br>
-          <strong>To:</strong> ${data.to}<br><br>
-          🚶 <strong>${data.walking_miles} miles</strong><br>
-          ⏱ <strong>${data.walking_minutes} minutes</strong>
-        `;
-      } catch (err) {
-        result.textContent = err.message;
-      }
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c;
+}
+
+// ---------------- MAIN FUNCTION ----------------
+async function calculateAll() {
+  const fromPostcode = document.getElementById("fromPostcode").value.trim();
+  const resultsDiv = document.getElementById("results");
+
+  if (!fromPostcode) {
+    resultsDiv.innerHTML = "Please enter a starting postcode.";
+    return;
+  }
+
+  resultsDiv.innerHTML = "Calculating…";
+
+  try {
+    const fromCoords = await getCoords(fromPostcode);
+    const results = [];
+
+    for (const place of destinations) {
+      const toCoords = await getCoords(place.postcode);
+
+      const straightKm = getDistanceKm(
+        fromCoords.lat, fromCoords.lon,
+        toCoords.lat, toCoords.lon
+      );
+
+      const ROUTE_FACTOR = 1.2;
+      const walkingKm = straightKm * ROUTE_FACTOR;
+
+      const miles = walkingKm * 0.621371;
+      const WALKING_SPEED_KMH = 4.8;
+      const minutes = Math.round((walkingKm / WALKING_SPEED_KMH) * 60);
+
+      const mapUrl = `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(fromPostcode)}&destination=${encodeURIComponent(place.postcode)}&travelmode=walking`;
+
+      results.push({
+        ...place,
+        miles,
+        minutes,
+        mapUrl
+      });
     }
-  </script>
+
+    // Sort nearest first
+    results.sort((a, b) => a.minutes - b.minutes);
+
+    resultsDiv.innerHTML = results.map(p => `
+      <div class="card">
+        <div class="title">${p.title}</div>
+        <div class="meta">${p.postcode}</div>
+        <div>${p.miles.toFixed(2)} miles</div>
+        <div>${p.minutes} minutes walk</div>
+        <button class="map-btn" onclick="window.open('${p.mapUrl}', '_blank')">
+          Open in Google Maps
+        </button>
+      </div>
+    `).join("");
+
+  } catch (err) {
+    resultsDiv.innerHTML = err.message;
+  }
+}
+</script>
 
 </body>
 </html>
