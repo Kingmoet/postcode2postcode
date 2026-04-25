@@ -36,15 +36,10 @@
       padding: 40px 20px 80px;
     }
 
-    .container {
-      max-width: 680px;
-      margin: 0 auto;
-    }
+    .container { max-width: 680px; margin: 0 auto; }
 
     /* ---- HEADER ---- */
-    .header {
-      margin-bottom: 36px;
-    }
+    .header { margin-bottom: 36px; }
 
     .header-eyebrow {
       font-family: 'DM Mono', monospace;
@@ -83,10 +78,7 @@
       align-items: center;
     }
 
-    .input-wrap {
-      flex: 1;
-      position: relative;
-    }
+    .input-wrap { flex: 1; position: relative; }
 
     .input-wrap svg {
       position: absolute;
@@ -165,11 +157,7 @@
     .note svg { flex-shrink: 0; margin-top: 1px; }
 
     /* ---- LOADING ---- */
-    .loading-state {
-      text-align: center;
-      padding: 48px 20px;
-      color: var(--text-muted);
-    }
+    .loading-state { text-align: center; padding: 48px 20px; color: var(--text-muted); }
 
     .spinner {
       width: 32px;
@@ -182,6 +170,7 @@
     }
 
     @keyframes spin { to { transform: rotate(360deg); } }
+    @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(0.7); } }
 
     /* ---- RESULTS HEADER ---- */
     .results-header {
@@ -222,15 +211,8 @@
       transition: box-shadow 0.15s, transform 0.15s;
     }
 
-    .card:hover {
-      box-shadow: var(--shadow-md);
-      transform: translateY(-1px);
-    }
-
-    .card.nearest {
-      border-color: var(--nearest);
-      background: var(--nearest-light);
-    }
+    .card:hover { box-shadow: var(--shadow-md); transform: translateY(-1px); }
+    .card.nearest { border-color: var(--nearest); background: var(--nearest-light); }
 
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(10px); }
@@ -258,56 +240,15 @@
       border-radius: 20px;
     }
 
-    .card-name {
-      font-size: 15px;
-      font-weight: 600;
-      color: var(--text);
-      line-height: 1.3;
-    }
+    .card-name { font-size: 15px; font-weight: 600; color: var(--text); line-height: 1.3; }
+    .card-postcode { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--text-muted); margin-top: 3px; }
 
-    .card-postcode {
-      font-family: 'DM Mono', monospace;
-      font-size: 12px;
-      color: var(--text-muted);
-      margin-top: 3px;
-    }
-
-    .card-stats {
-      display: flex;
-      gap: 16px;
-      margin-top: 12px;
-      flex-wrap: wrap;
-    }
-
-    .stat {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-    }
-
-    .stat-value {
-      font-size: 18px;
-      font-weight: 600;
-      color: var(--text);
-      letter-spacing: -0.3px;
-    }
-
+    .card-stats { display: flex; gap: 16px; margin-top: 12px; flex-wrap: wrap; }
+    .stat { display: flex; flex-direction: column; gap: 2px; }
+    .stat-value { font-size: 18px; font-weight: 600; color: var(--text); letter-spacing: -0.3px; }
     .card.nearest .stat-value { color: var(--nearest); }
-
-    .stat-label {
-      font-size: 11px;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.07em;
-      font-weight: 500;
-    }
-
-    .divider {
-      width: 1px;
-      background: var(--border);
-      align-self: stretch;
-      margin: 2px 0;
-    }
+    .stat-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.07em; font-weight: 500; }
+    .divider { width: 1px; background: var(--border); align-self: stretch; margin: 2px 0; }
 
     /* ---- MAP BUTTON ---- */
     .btn-map {
@@ -331,16 +272,8 @@
       margin-top: 4px;
     }
 
-    .btn-map:hover {
-      background: #fff;
-      box-shadow: 0 1px 0 var(--border), 0 1px 2px rgba(26,23,20,0.04);
-      transform: translateY(2px);
-    }
-
-    .btn-map:active {
-      transform: translateY(3px);
-      box-shadow: 0 0px 0 var(--border);
-    }
+    .btn-map:hover { background: #fff; box-shadow: 0 1px 0 var(--border), 0 1px 2px rgba(26,23,20,0.04); transform: translateY(2px); }
+    .btn-map:active { transform: translateY(3px); box-shadow: 0 0px 0 var(--border); }
 
     .card.nearest .btn-map {
       background: #fff;
@@ -349,10 +282,7 @@
       box-shadow: 0 3px 0 rgba(200,82,42,0.3), 0 1px 2px rgba(26,23,20,0.06);
     }
 
-    .card.nearest .btn-map:hover {
-      box-shadow: 0 1px 0 rgba(200,82,42,0.3);
-      transform: translateY(2px);
-    }
+    .card.nearest .btn-map:hover { box-shadow: 0 1px 0 rgba(200,82,42,0.3); transform: translateY(2px); }
 
     /* ---- CLEAR BUTTON ---- */
     .clear-bar {
@@ -382,17 +312,8 @@
       transition: all 0.1s;
     }
 
-    .btn-clear:hover {
-      color: var(--text);
-      background: #fff;
-      box-shadow: 0 1px 0 var(--border);
-      transform: translateY(1px);
-    }
-
-    .btn-clear:active {
-      transform: translateY(2px);
-      box-shadow: none;
-    }
+    .btn-clear:hover { color: var(--text); background: #fff; box-shadow: 0 1px 0 var(--border); transform: translateY(1px); }
+    .btn-clear:active { transform: translateY(2px); box-shadow: none; }
 
     /* ---- ERROR ---- */
     .error-msg {
@@ -415,12 +336,276 @@
     .card:nth-child(5) { animation-delay: 120ms; }
     .card:nth-child(n+6) { animation-delay: 150ms; }
 
+    /* ---- BANK HOLIDAYS ---- */
+    .bh-section {
+      margin-top: 48px;
+      border-top: 1px solid var(--border);
+      padding-top: 32px;
+    }
+
+    .bh-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .bh-title {
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+    }
+
+    .bh-year-tabs { display: flex; gap: 4px; flex-wrap: wrap; }
+
+    .bh-tab {
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      font-weight: 500;
+      padding: 5px 13px;
+      border-radius: 20px;
+      border: 1.5px solid var(--border);
+      background: var(--surface);
+      color: var(--text-muted);
+      cursor: pointer;
+      box-shadow: 0 2px 0 var(--border);
+      transition: all 0.1s;
+    }
+
+    .bh-tab.active { background: var(--accent); border-color: var(--accent); color: #fff; box-shadow: 0 2px 0 #1a3d1b; }
+    .bh-tab:not(.active):hover { color: var(--text); transform: translateY(1px); box-shadow: 0 1px 0 var(--border); }
+
+    /* Next upcoming highlight card */
+    .bh-next-card {
+      background: var(--accent-light);
+      border: 1.5px solid var(--accent);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 10px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .bh-next-left { display: flex; flex-direction: column; gap: 3px; }
+
+    .bh-next-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .bh-next-name {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .bh-next-date {
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .bh-next-right { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+
+    .bh-countdown {
+      font-family: 'DM Mono', monospace;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--accent);
+      white-space: nowrap;
+    }
+
+    .btn-expand {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 7px 13px;
+      background: var(--surface);
+      border: 1.5px solid var(--accent);
+      border-radius: 20px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--accent);
+      cursor: pointer;
+      box-shadow: 0 2px 0 rgba(44,95,46,0.2);
+      transition: all 0.1s;
+      white-space: nowrap;
+    }
+
+    .btn-expand:hover { background: var(--accent-light); box-shadow: 0 1px 0 rgba(44,95,46,0.2); transform: translateY(1px); }
+    .btn-expand:active { transform: translateY(2px); box-shadow: none; }
+
+    .btn-expand svg { transition: transform 0.2s ease; }
+    .btn-expand.open svg { transform: rotate(180deg); }
+
+    /* Collapsible list */
+    .bh-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      overflow: hidden;
+      max-height: 0;
+      transition: max-height 0.35s ease;
+    }
+
+    .bh-grid.open { max-height: 1200px; }
+
+    .bh-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 11px 16px;
+      box-shadow: var(--shadow-sm);
+      gap: 8px;
+      transition: box-shadow 0.15s;
+    }
+
+    .bh-row:hover { box-shadow: var(--shadow-md); }
+    .bh-row.past { opacity: 0.38; }
+    .bh-row.next { border-color: var(--accent); background: var(--accent-light); }
+
+    .bh-left { display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0; }
+
+    .bh-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--border); flex-shrink: 0; }
+    .bh-row.next .bh-dot { background: var(--accent); }
+    .bh-row.future .bh-dot { background: var(--accent); opacity: 0.45; }
+
+    .bh-name { font-size: 14px; font-weight: 500; color: var(--text); }
+
+    .bh-right { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+
+    .bh-date { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--text-muted); }
+
+    .bh-badge {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      background: var(--accent);
+      color: #fff;
+      padding: 2px 8px;
+      border-radius: 10px;
+    }
+
+    /* ---- STATS SECTION ---- */
+    .stats-section {
+      margin-top: 48px;
+      border-top: 1px solid var(--border);
+      padding-top: 32px;
+    }
+
+    .stats-section-header {
+      margin-bottom: 20px;
+    }
+
+    .stats-eyebrow {
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+
+    .stats-subtitle {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .stats-grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px 18px;
+      box-shadow: var(--shadow-sm);
+      transition: box-shadow 0.15s, transform 0.15s;
+    }
+
+    .stat-card:hover { box-shadow: var(--shadow-md); transform: translateY(-1px); }
+
+    .stat-card.accent { border-color: var(--accent); background: var(--accent-light); }
+    .stat-card.warm   { border-color: #c8853a; background: #fdf4eb; }
+    .stat-card.rose   { border-color: #b03a5a; background: #fdf0f4; }
+
+    .sc-icon { font-size: 20px; margin-bottom: 8px; }
+
+    .sc-value {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: -0.5px;
+      line-height: 1.1;
+    }
+
+    .stat-card.accent .sc-value { color: var(--accent); }
+    .stat-card.warm   .sc-value { color: #9a5c1a; }
+    .stat-card.rose   .sc-value { color: #8a1a3a; }
+
+    .sc-label {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-muted);
+      margin-top: 4px;
+      line-height: 1.4;
+    }
+
+    .sc-source {
+      font-size: 10px;
+      color: var(--text-muted);
+      margin-top: 6px;
+      font-family: 'DM Mono', monospace;
+      opacity: 0.7;
+    }
+
+    .stats-note {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 11px 15px;
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.5;
+      margin-top: 6px;
+    }
+
     @media (max-width: 480px) {
       body { padding: 24px 14px 60px; }
       .search-box { flex-direction: column; }
       .btn-primary { width: 100%; }
       .card { grid-template-columns: 1fr; }
       .btn-map { width: 100%; justify-content: center; }
+      .bh-name { font-size: 13px; }
+      .bh-date { font-size: 11px; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .stats-grid-2 { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -440,9 +625,7 @@
       </svg>
       <input type="text" id="fromPostcode" placeholder="Enter your postcode" autocomplete="postal-code" spellcheck="false">
     </div>
-    <button class="btn-primary" onclick="calculateAll()">
-      Calculate
-    </button>
+    <button class="btn-primary" onclick="calculateAll()">Calculate</button>
   </div>
 
   <div class="clear-bar" id="clearBar">
@@ -461,9 +644,118 @@
 
   <div id="results"></div>
 
+  <!-- BANK HOLIDAYS -->
+  <div class="bh-section">
+    <div class="bh-header">
+      <span class="bh-title">UK Bank Holidays — England &amp; Wales</span>
+      <div class="bh-year-tabs" id="bhTabs"></div>
+    </div>
+    <!-- Next upcoming highlight -->
+    <div id="bhNextCard"></div>
+    <!-- Full list (collapsed by default) -->
+    <div class="bh-grid" id="bhGrid"></div>
+  </div>
+
+  <!-- PREGNANCY & BIRTH STATS -->
+  <div class="stats-section">
+    <div class="stats-section-header">
+      <div class="stats-eyebrow">Pregnancy &amp; Birth in the UK</div>
+      <div class="stats-subtitle">Latest figures from ONS &amp; NHS England · <span id="statsUpdated"></span></div>
+    </div>
+
+    <!-- Live counter card -->
+    <div class="stat-card accent" style="margin-bottom:10px; display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;">
+      <div>
+        <div class="sc-icon">👶</div>
+        <div class="sc-label" style="font-size:11px; margin-bottom:4px;">Estimated births in England &amp; Wales</div>
+        <div style="display:flex; gap:16px; flex-wrap:wrap; align-items:flex-end;">
+          <div>
+            <div class="sc-value" id="birthsToday">—</div>
+            <div class="sc-label">Today so far</div>
+          </div>
+          <div style="width:1px; background:var(--accent-light); align-self:stretch; margin:2px 0;"></div>
+          <div>
+            <div class="sc-value" id="birthsYear">—</div>
+            <div class="sc-label">This year so far</div>
+          </div>
+        </div>
+        <div class="sc-source" style="margin-top:8px;">Based on 594,677 births in 2024 · ONS · Updates on page load</div>
+      </div>
+      <div style="text-align:right;">
+        <div style="font-family:'DM Mono',monospace; font-size:11px; color:var(--accent); margin-bottom:4px;">LIVE ESTIMATE</div>
+        <div style="width:8px; height:8px; border-radius:50%; background:var(--accent); display:inline-block; animation: pulse 1.5s ease-in-out infinite;"></div>
+      </div>
+    </div>
+
+    <!-- Row 1: 3 columns -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="sc-icon">📉</div>
+        <div class="sc-value">1.41</div>
+        <div class="sc-label">Total fertility rate per woman — lowest ever recorded, 3rd year running</div>
+        <div class="sc-source">ONS · 2024</div>
+      </div>
+      <div class="stat-card warm">
+        <div class="sc-icon">🎂</div>
+        <div class="sc-value">31.0</div>
+        <div class="sc-label">Average age of mothers at birth — fathers average 33.9 years</div>
+        <div class="sc-source">ONS · 2024</div>
+      </div>
+      <div class="stat-card rose">
+        <div class="sc-icon">🏥</div>
+        <div class="sc-value">~38%</div>
+        <div class="sc-label">Of births delivered by caesarean section — up from 34.7% in 2022</div>
+        <div class="sc-source">NHS England · 2023–24</div>
+      </div>
+    </div>
+
+    <!-- Row 2: 3 columns -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="sc-icon">⚡</div>
+        <div class="sc-value">1 in 5</div>
+        <div class="sc-label">Pregnancies in the UK end in miscarriage — not officially counted</div>
+        <div class="sc-source">Tommy's · 2024</div>
+      </div>
+      <div class="stat-card accent">
+        <div class="sc-icon">🌱</div>
+        <div class="sc-value">87%</div>
+        <div class="sc-label">Of women took folic acid before or on confirmation of pregnancy</div>
+        <div class="sc-source">NHS Maternity · 2024–25</div>
+      </div>
+      <div class="stat-card warm">
+        <div class="sc-icon">💔</div>
+        <div class="sc-value">2,612</div>
+        <div class="sc-label">Stillbirths across the UK in 2023 — 3.9 per 1,000 births</div>
+        <div class="sc-source">ONS · Tommy's · 2023</div>
+      </div>
+    </div>
+
+    <!-- Row 3: 2 columns -->
+    <div class="stats-grid-2">
+      <div class="stat-card">
+        <div class="sc-icon">🤱</div>
+        <div class="sc-value">33.9%</div>
+        <div class="sc-label">Of live births in 2024 were to non-UK-born mothers — up from 31.8% in 2023</div>
+        <div class="sc-source">ONS · 2024</div>
+      </div>
+      <div class="stat-card rose">
+        <div class="sc-icon">🩺</div>
+        <div class="sc-value">~12,000</div>
+        <div class="sc-label">Women have ectopic pregnancies diagnosed each year in the UK</div>
+        <div class="sc-source">Tommy's · 2024</div>
+      </div>
+    </div>
+
+    <div class="stats-note">
+      ℹ️ Fixed stats are from official UK sources (ONS, NHS England, Tommy's) and updated when new annual data is published. The birth counter is an estimate calculated from the 2024 annual total and resets each page load.
+    </div>
+  </div>
+
 </div>
 
 <script>
+// ---- WALKING DISTANCE ----
 const destinations = [
   { title: "Isle of Dogs Children's Centre (Millwall Park)", postcode: "E14 3BX" },
   { title: "Children & Family Centre, 45 Kerbey Street", postcode: "E14 6AW" },
@@ -472,7 +764,7 @@ const destinations = [
   { title: "Wapping & Bigland Children's Centre, 15 Richard Street", postcode: "E1 2JP" },
   { title: "Ocean Children's Centre, Whitehorse Road", postcode: "E1 0ND" },
   { title: "John Smith Children Centre, 90 Stepney Way", postcode: "E1 2EN" },
-  { title: "Shadwell Children's Centre, 418–422 Cable Street", postcode: "E1 0AF" },
+  { title: "Shadwell Children's Centre, 418\u2013422 Cable Street", postcode: "E1 0AF" },
   { title: "Meath Garden Children's Centre, 1 Smart Street", postcode: "E2 0SN" },
   { title: "St Bartholomew Gardens, Buckhurst Street", postcode: "E1 5QT" },
   { title: "Wadeson Street, Cambridge Heath", postcode: "E2 9DL" },
@@ -572,10 +864,18 @@ async function calculateAll() {
     document.getElementById('clearBar').classList.add('visible');
 
   } catch (err) {
-    resultsDiv.innerHTML = `<div class="error-msg">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-      ${err.message}
-    </div>`;
+    const mapsUrl = `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(fromPostcode)}&travelmode=walking`;
+    const mapIcon = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>`;
+    resultsDiv.innerHTML = `
+      <div class="error-msg" style="flex-direction:column; align-items:flex-start; gap:12px;">
+        <div style="display:flex; align-items:center; gap:10px;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <span>Postcode <strong>${fromPostcode}</strong> wasn't recognised. Open Google Maps to enter your destination manually.</span>
+        </div>
+        <button class="btn-map" style="margin-top:0;" onclick="window.open('${mapsUrl}','_blank')">
+          ${mapIcon} Open walking directions in Google Maps
+        </button>
+      </div>`;
   }
 }
 
@@ -589,6 +889,152 @@ function clearAll() {
 document.getElementById('fromPostcode').addEventListener('keydown', e => {
   if (e.key === 'Enter') calculateAll();
 });
+
+// ---- BIRTH COUNTER ----
+(function() {
+  const ANNUAL_BIRTHS = 594677; // ONS 2024, England & Wales
+  const BIRTHS_PER_SEC = ANNUAL_BIRTHS / (365.25 * 24 * 3600);
+
+  const now = new Date();
+  const startOfYear = new Date(now.getFullYear(), 0, 1);
+  const secsIntoYear = (now - startOfYear) / 1000;
+  const secsToday = (now.getHours() * 3600) + (now.getMinutes() * 60) + now.getSeconds();
+
+  const birthsYear = Math.floor(secsIntoYear * BIRTHS_PER_SEC);
+  const birthsToday = Math.floor(secsToday * BIRTHS_PER_SEC);
+
+  document.getElementById('birthsYear').textContent = birthsYear.toLocaleString('en-GB');
+  document.getElementById('birthsToday').textContent = birthsToday.toLocaleString('en-GB');
+
+  // Show last updated date
+  const opts = { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' };
+  document.getElementById('statsUpdated').textContent = 'Loaded ' + now.toLocaleString('en-GB', opts);
+})();
+
+// ---- BANK HOLIDAYS (live from GOV.UK) ----
+let allHolidaysByYear = {};
+
+async function loadBankHolidays() {
+  const grid = document.getElementById('bhGrid');
+  const tabsEl = document.getElementById('bhTabs');
+  try {
+    const res = await fetch('https://www.gov.uk/bank-holidays.json');
+    const data = await res.json();
+    const events = data['england-and-wales'].events;
+    const today = new Date(); today.setHours(0,0,0,0);
+    const currentYear = today.getFullYear();
+
+    // Group by year, skip years entirely in the past
+    events.forEach(e => {
+      const yr = new Date(e.date).getFullYear();
+      if (yr < currentYear) return;
+      if (!allHolidaysByYear[yr]) allHolidaysByYear[yr] = [];
+      allHolidaysByYear[yr].push({ name: e.title, date: e.date });
+    });
+
+    const years = Object.keys(allHolidaysByYear).map(Number).sort();
+    if (!years.length) { grid.innerHTML = ''; return; }
+
+    const defaultYear = years[0];
+
+    // Build year tabs dynamically
+    tabsEl.innerHTML = years.map(yr =>
+      `<button class="bh-tab${yr === defaultYear ? ' active' : ''}" onclick="showYear(${yr}, this)">${yr}</button>`
+    ).join('');
+
+    renderBankHolidays(defaultYear);
+  } catch (e) {
+    grid.innerHTML = `<div style="font-size:13px;color:var(--text-muted);padding:12px 0;">Could not load bank holidays. <a href="https://www.gov.uk/bank-holidays" target="_blank" style="color:var(--accent);">View on GOV.UK</a></div>`;
+  }
+}
+
+function showYear(year, tabEl) {
+  document.querySelectorAll('.bh-tab').forEach(t => t.classList.remove('active'));
+  tabEl.classList.add('active');
+  renderBankHolidays(year);
+}
+
+function toggleBhGrid() {
+  const grid = document.getElementById('bhGrid');
+  const btn = document.getElementById('bhExpandBtn');
+  const isOpen = grid.classList.contains('open');
+  grid.classList.toggle('open', !isOpen);
+  btn.classList.toggle('open', !isOpen);
+  btn.querySelector('span').textContent = isOpen ? 'Show all' : 'Show less';
+}
+
+function renderBankHolidays(year) {
+  const today = new Date(); today.setHours(0,0,0,0);
+  const holidays = allHolidaysByYear[year] || [];
+  const grid = document.getElementById('bhGrid');
+  const nextCard = document.getElementById('bhNextCard');
+  const DAYS = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+
+  // Reset collapsed state on year switch
+  grid.classList.remove('open');
+
+  if (!holidays.length) {
+    nextCard.innerHTML = '';
+    grid.innerHTML = `<div style="font-size:13px;color:var(--text-muted);padding:12px 0;">No dates available yet for ${year}.</div>`;
+    grid.classList.add('open');
+    return;
+  }
+
+  let nextIdx = -1;
+  for (let i = 0; i < holidays.length; i++) {
+    if (new Date(holidays[i].date) >= today) { nextIdx = i; break; }
+  }
+
+  // Render the next upcoming highlight card
+  if (nextIdx !== -1) {
+    const h = holidays[nextIdx];
+    const d = new Date(h.date);
+    const dayName = DAYS[d.getDay()];
+    const dateStr = d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+    const diffDays = Math.ceil((d - today) / (1000 * 60 * 60 * 24));
+    const countdown = diffDays === 0 ? 'Today!' : diffDays === 1 ? 'Tomorrow' : `In ${diffDays} days`;
+
+    nextCard.innerHTML = `
+      <div class="bh-next-card">
+        <div class="bh-next-left">
+          <span class="bh-next-label">Next Bank Holiday</span>
+          <span class="bh-next-name">${h.name}</span>
+          <span class="bh-next-date">${dayName}, ${dateStr}</span>
+        </div>
+        <div class="bh-next-right">
+          <span class="bh-countdown">${countdown}</span>
+          <button class="btn-expand" id="bhExpandBtn" onclick="toggleBhGrid()">
+            <span>Show all</span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+        </div>
+      </div>`;
+  } else {
+    nextCard.innerHTML = '';
+  }
+
+  // Render full list (hidden until expanded)
+  grid.innerHTML = holidays.map((h, i) => {
+    const d = new Date(h.date);
+    const isPast = d < today;
+    const isNext = i === nextIdx;
+    const cls = isPast ? 'past' : isNext ? 'next' : 'future';
+    const dayName = DAYS[d.getDay()];
+    const dateStr = d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+    return `<div class="bh-row ${cls}">
+      <div class="bh-left">
+        <div class="bh-dot"></div>
+        <span class="bh-name">${h.name}</span>
+      </div>
+      <div class="bh-right">
+        <span class="bh-date">${dayName}, ${dateStr}</span>
+        ${isNext ? '<span class="bh-badge">Next</span>' : ''}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+loadBankHolidays();
 </script>
 </body>
 </html>
