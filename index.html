@@ -2,117 +2,430 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Walking Distance Calculator</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #f0ede8;
+      --surface: #ffffff;
+      --surface-2: #f7f5f2;
+      --border: #e2ddd8;
+      --text: #1a1714;
+      --text-muted: #7a7167;
+      --accent: #2c5f2e;
+      --accent-light: #e8f0e8;
+      --accent-glow: rgba(44, 95, 46, 0.12);
+      --nearest: #c8522a;
+      --nearest-light: #fdf0eb;
+      --shadow-sm: 0 2px 4px rgba(26,23,20,0.06), 0 1px 2px rgba(26,23,20,0.04);
+      --shadow-md: 0 4px 12px rgba(26,23,20,0.08), 0 2px 4px rgba(26,23,20,0.05);
+      --shadow-btn: 0 3px 0 #c8c2ba, 0 1px 3px rgba(26,23,20,0.1);
+      --shadow-btn-hover: 0 1px 0 #c8c2ba, 0 1px 2px rgba(26,23,20,0.08);
+      --radius: 14px;
+      --radius-sm: 8px;
+    }
+
     body {
-      font-family: Arial, sans-serif;
-      padding: 20px;
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 40px 20px 80px;
     }
 
-    input, button {
-      padding: 10px;
-      margin: 5px;
+    .container {
+      max-width: 680px;
+      margin: 0 auto;
     }
 
-    #results {
-      margin-top: 20px;
+    /* ---- HEADER ---- */
+    .header {
+      margin-bottom: 36px;
     }
 
-    .note-box {
-      background-color: #f5f7f9;
-      border-left: 4px solid #1a73e8;
-      padding: 12px 16px;
-      margin-bottom: 20px;
+    .header-eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .header h1 {
+      font-size: 28px;
+      font-weight: 600;
+      letter-spacing: -0.5px;
+      line-height: 1.2;
+      color: var(--text);
+    }
+
+    .header p {
+      margin-top: 10px;
       font-size: 14px;
-      color: #333;
+      color: var(--text-muted);
+      line-height: 1.6;
     }
 
-    .note-box strong {
-      display: block;
-      margin-bottom: 6px;
+    /* ---- SEARCH BOX ---- */
+    .search-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 24px;
+      display: flex;
+      gap: 10px;
+      align-items: center;
     }
 
-    .card {
-      border: 1px solid #ddd;
-      padding: 12px;
-      margin-bottom: 12px;
-      border-radius: 6px;
+    .input-wrap {
+      flex: 1;
       position: relative;
     }
 
-    .title {
-      font-weight: bold;
+    .input-wrap svg {
+      position: absolute;
+      left: 13px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      pointer-events: none;
     }
 
-    .meta {
-      font-size: 14px;
-      color: #555;
+    #fromPostcode {
+      width: 100%;
+      padding: 12px 14px 12px 40px;
+      font-family: 'DM Mono', monospace;
+      font-size: 15px;
+      letter-spacing: 0.05em;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: var(--surface-2);
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.15s, box-shadow 0.15s;
     }
 
-    .map-btn {
-      margin-top: 8px;
-      background-color: #1a73e8;
+    #fromPostcode::placeholder { color: var(--text-muted); }
+
+    #fromPostcode:focus {
+      border-color: var(--accent);
+      background: #fff;
+      box-shadow: 0 0 0 3px var(--accent-glow);
+    }
+
+    .btn-primary {
+      padding: 12px 22px;
+      background: var(--accent);
       color: #fff;
       border: none;
-      padding: 8px 12px;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-
-    .map-btn:hover {
-      background-color: #1558b0;
-    }
-
-    .badge {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      background: #2e7d32;
-      color: #fff;
-      padding: 4px 8px;
-      font-size: 12px;
-      border-radius: 12px;
-    }
-
-    .recommended {
-      margin-top: 6px;
+      border-radius: var(--radius-sm);
+      font-family: 'DM Sans', sans-serif;
       font-size: 14px;
-      color: #2e7d32;
-      font-weight: bold;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      box-shadow: var(--shadow-btn);
+      transform: translateY(0);
+      transition: box-shadow 0.1s, transform 0.1s, background 0.15s;
+      letter-spacing: 0.01em;
+    }
+
+    .btn-primary:hover {
+      background: #234d25;
+      box-shadow: var(--shadow-btn-hover);
+      transform: translateY(2px);
+    }
+
+    .btn-primary:active {
+      transform: translateY(3px);
+      box-shadow: 0 0px 0 #c8c2ba;
+    }
+
+    /* ---- NOTE ---- */
+    .note {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 12px 16px;
+      margin-bottom: 24px;
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.55;
+    }
+
+    .note svg { flex-shrink: 0; margin-top: 1px; }
+
+    /* ---- LOADING ---- */
+    .loading-state {
+      text-align: center;
+      padding: 48px 20px;
+      color: var(--text-muted);
+    }
+
+    .spinner {
+      width: 32px;
+      height: 32px;
+      border: 2.5px solid var(--border);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto 14px;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ---- RESULTS HEADER ---- */
+    .results-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+
+    .results-title {
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+    }
+
+    .results-count {
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    /* ---- CARDS ---- */
+    .cards-list { display: flex; flex-direction: column; gap: 10px; }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px 20px;
+      box-shadow: var(--shadow-sm);
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: start;
+      gap: 12px;
+      animation: fadeUp 0.3s ease both;
+      transition: box-shadow 0.15s, transform 0.15s;
+    }
+
+    .card:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-1px);
+    }
+
+    .card.nearest {
+      border-color: var(--nearest);
+      background: var(--nearest-light);
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .card-left { min-width: 0; }
+
+    .card-top {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 4px;
+      flex-wrap: wrap;
+    }
+
+    .badge-nearest {
+      background: var(--nearest);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 20px;
+    }
+
+    .card-name {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.3;
+    }
+
+    .card-postcode {
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 3px;
+    }
+
+    .card-stats {
+      display: flex;
+      gap: 16px;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+
+    .stat {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .stat-value {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--text);
+      letter-spacing: -0.3px;
+    }
+
+    .card.nearest .stat-value { color: var(--nearest); }
+
+    .stat-label {
+      font-size: 11px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      font-weight: 500;
+    }
+
+    .divider {
+      width: 1px;
+      background: var(--border);
+      align-self: stretch;
+      margin: 2px 0;
+    }
+
+    /* ---- MAP BUTTON ---- */
+    .btn-map {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 9px 14px;
+      background: var(--surface-2);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text);
+      cursor: pointer;
+      text-decoration: none;
+      box-shadow: 0 3px 0 var(--border), 0 1px 2px rgba(26,23,20,0.06);
+      transform: translateY(0);
+      transition: all 0.1s;
+      white-space: nowrap;
+      margin-top: 4px;
+    }
+
+    .btn-map:hover {
+      background: #fff;
+      box-shadow: 0 1px 0 var(--border), 0 1px 2px rgba(26,23,20,0.04);
+      transform: translateY(2px);
+    }
+
+    .btn-map:active {
+      transform: translateY(3px);
+      box-shadow: 0 0px 0 var(--border);
+    }
+
+    .card.nearest .btn-map {
+      background: #fff;
+      border-color: var(--nearest);
+      color: var(--nearest);
+      box-shadow: 0 3px 0 rgba(200,82,42,0.3), 0 1px 2px rgba(26,23,20,0.06);
+    }
+
+    .card.nearest .btn-map:hover {
+      box-shadow: 0 1px 0 rgba(200,82,42,0.3);
+      transform: translateY(2px);
+    }
+
+    /* ---- ERROR ---- */
+    .error-msg {
+      background: #fff3f0;
+      border: 1px solid #fac3b3;
+      border-radius: var(--radius-sm);
+      padding: 14px 18px;
+      font-size: 14px;
+      color: #b03a1e;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* ---- DELAY STAGGER ---- */
+    .card:nth-child(1) { animation-delay: 0ms; }
+    .card:nth-child(2) { animation-delay: 30ms; }
+    .card:nth-child(3) { animation-delay: 60ms; }
+    .card:nth-child(4) { animation-delay: 90ms; }
+    .card:nth-child(5) { animation-delay: 120ms; }
+    .card:nth-child(n+6) { animation-delay: 150ms; }
+
+    @media (max-width: 480px) {
+      body { padding: 24px 14px 60px; }
+      .search-box { flex-direction: column; }
+      .btn-primary { width: 100%; }
+      .card { grid-template-columns: 1fr; }
+      .btn-map { width: 100%; justify-content: center; }
     }
   </style>
 </head>
 <body>
+<div class="container">
 
-<!-- ✅ NOTE AT TOP -->
-<div class="note-box">
-  <strong>Note:</strong>
-  Walking times are estimated using an average walking speed and straight-line distance,
-  with a basic adjustment to reflect typical routes.
-  <br><br>
-  For the most accurate walking directions and travel time, please check Google Maps.
-  This uses real pedestrian paths, crossings, and traffic conditions, so actual times may vary.
+  <div class="header">
+    <div class="header-eyebrow">Tower Hamlets</div>
+    <h1>Children's Centre<br>Walking Distance</h1>
+    <p>Find your nearest children's centre and estimated walking time from your postcode.</p>
+  </div>
+
+  <div class="search-box">
+    <div class="input-wrap">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+      </svg>
+      <input type="text" id="fromPostcode" placeholder="Enter your postcode" autocomplete="postal-code" spellcheck="false">
+    </div>
+    <button class="btn-primary" onclick="calculateAll()">
+      Calculate
+    </button>
+  </div>
+
+  <div class="note">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+    </svg>
+    <span>Times are estimated from straight-line distance. For accurate walking routes, use the Google Maps buttons below.</span>
+  </div>
+
+  <div id="results"></div>
+
 </div>
 
-<h2>Walking Distance Calculator</h2>
-
-<input type="text" id="fromPostcode" placeholder="Enter your postcode">
-<br>
-<button onclick="calculateAll()">Calculate Walking Distances</button>
-
-<div id="results"></div>
-
 <script>
-// ---------------- FIXED DESTINATIONS ----------------
 const destinations = [
   { title: "Isle of Dogs Children's Centre (Millwall Park)", postcode: "E14 3BX" },
   { title: "Children & Family Centre, 45 Kerbey Street", postcode: "E14 6AW" },
   { title: "Aberfeldy Street, Aberfeldy Village", postcode: "E14 0NU" },
   { title: "115 Three Colt Street", postcode: "E14 8AP" },
-  { title: "Wapping & Bigland Children’s Centre, 15 Richard Street", postcode: "E1 2JP" },
-  { title: "Ocean Children’s Centre, Whitehorse Road", postcode: "E1 0ND" },
+  { title: "Wapping & Bigland Children's Centre, 15 Richard Street", postcode: "E1 2JP" },
+  { title: "Ocean Children's Centre, Whitehorse Road", postcode: "E1 0ND" },
   { title: "John Smith Children Centre, 90 Stepney Way", postcode: "E1 2EN" },
-  { title: "Shadwell Children’s Centre, 418–422 Cable Street", postcode: "E1 0AF" },
+  { title: "Shadwell Children's Centre, 418–422 Cable Street", postcode: "E1 0AF" },
   { title: "Meath Garden Children's Centre, 1 Smart Street", postcode: "E2 0SN" },
   { title: "St Bartholomew Gardens, Buckhurst Street", postcode: "E1 5QT" },
   { title: "Wadeson Street, Cambridge Heath", postcode: "E2 9DL" },
@@ -122,13 +435,10 @@ const destinations = [
   { title: "Mile End Children's Centre, 9 Bede Square", postcode: "E3 4GY" }
 ];
 
-// ---------------- HELPERS ----------------
 async function getCoords(postcode) {
-  const res = await fetch(
-    `https://api.postcodes.io/postcodes/${encodeURIComponent(postcode)}`
-  );
+  const res = await fetch(`https://api.postcodes.io/postcodes/${encodeURIComponent(postcode)}`);
   const data = await res.json();
-  if (data.status !== 200) throw new Error("Invalid postcode: " + postcode);
+  if (data.status !== 200) throw new Error("Postcode not found: " + postcode);
   return { lat: data.result.latitude, lon: data.result.longitude };
 }
 
@@ -136,27 +446,29 @@ function getDistanceKm(lat1, lon1, lat2, lon2) {
   const R = 6371;
   const dLat = (lat2 - lat1) * Math.PI / 180;
   const dLon = (lon2 - lon1) * Math.PI / 180;
-
-  const a =
-    Math.sin(dLat / 2) ** 2 +
-    Math.cos(lat1 * Math.PI / 180) *
-    Math.cos(lat2 * Math.PI / 180) *
-    Math.sin(dLon / 2) ** 2;
-
-  return R * (2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)));
+  const a = Math.sin(dLat/2)**2 + Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLon/2)**2;
+  return R * (2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)));
 }
 
-// ---------------- MAIN ----------------
+function minsToLabel(m) {
+  if (m < 60) return `${m} min`;
+  const h = Math.floor(m/60), r = m%60;
+  return r > 0 ? `${h}h ${r}m` : `${h}h`;
+}
+
 async function calculateAll() {
   const fromPostcode = document.getElementById("fromPostcode").value.trim();
   const resultsDiv = document.getElementById("results");
 
   if (!fromPostcode) {
-    resultsDiv.innerHTML = "Please enter a starting postcode.";
+    resultsDiv.innerHTML = `<div class="error-msg">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      Please enter a postcode to continue.
+    </div>`;
     return;
   }
 
-  resultsDiv.innerHTML = "Calculating…";
+  resultsDiv.innerHTML = `<div class="loading-state"><div class="spinner"></div><div>Fetching distances…</div></div>`;
 
   try {
     const fromCoords = await getCoords(fromPostcode);
@@ -164,45 +476,63 @@ async function calculateAll() {
 
     for (const place of destinations) {
       const toCoords = await getCoords(place.postcode);
-
-      const walkingKm =
-        getDistanceKm(
-          fromCoords.lat, fromCoords.lon,
-          toCoords.lat, toCoords.lon
-        ) * 1.2;
-
+      const walkingKm = getDistanceKm(fromCoords.lat, fromCoords.lon, toCoords.lat, toCoords.lon) * 1.2;
       const miles = walkingKm * 0.621371;
       const minutes = Math.round((walkingKm / 4.8) * 60);
-
-      const mapUrl =
-        `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(fromPostcode)}` +
-        `&destination=${encodeURIComponent(place.postcode)}&travelmode=walking`;
-
+      const mapUrl = `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(fromPostcode)}&destination=${encodeURIComponent(place.postcode)}&travelmode=walking`;
       results.push({ ...place, miles, minutes, mapUrl });
     }
 
     results.sort((a, b) => a.minutes - b.minutes);
-    const nearestTitle = results[0].title;
 
-    resultsDiv.innerHTML = results.map(p => `
-      <div class="card">
-        ${p.title === nearestTitle ? `<div class="badge">Nearest centre</div>` : ``}
-        <div class="title">${p.title}</div>
-        <div class="meta">${p.postcode}</div>
-        <div>${p.miles.toFixed(2)} miles</div>
-        <div>${p.minutes} minutes walk</div>
-        ${p.title === nearestTitle ? `<div class="recommended">✅ Recommended</div>` : ``}
-        <button class="map-btn" onclick="window.open('${p.mapUrl}', '_blank')">
-          Open in Google Maps
-        </button>
+    const mapIcon = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>`;
+
+    resultsDiv.innerHTML = `
+      <div class="results-header">
+        <span class="results-title">Sorted by distance</span>
+        <span class="results-count">${results.length} centres</span>
       </div>
-    `).join("");
+      <div class="cards-list">
+        ${results.map((p, i) => `
+          <div class="card${i === 0 ? ' nearest' : ''}">
+            <div class="card-left">
+              <div class="card-top">
+                ${i === 0 ? `<span class="badge-nearest">Nearest</span>` : ''}
+                <span class="card-name">${p.title}</span>
+              </div>
+              <div class="card-postcode">${p.postcode}</div>
+              <div class="card-stats">
+                <div class="stat">
+                  <span class="stat-value">${minsToLabel(p.minutes)}</span>
+                  <span class="stat-label">Walk</span>
+                </div>
+                <div class="divider"></div>
+                <div class="stat">
+                  <span class="stat-value">${p.miles.toFixed(1)}</span>
+                  <span class="stat-label">Miles</span>
+                </div>
+              </div>
+            </div>
+            <div>
+              <button class="btn-map" onclick="window.open('${p.mapUrl}', '_blank')">
+                ${mapIcon} Maps
+              </button>
+            </div>
+          </div>
+        `).join('')}
+      </div>`;
 
   } catch (err) {
-    resultsDiv.innerHTML = err.message;
+    resultsDiv.innerHTML = `<div class="error-msg">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      ${err.message}
+    </div>`;
   }
 }
-</script>
 
+document.getElementById('fromPostcode').addEventListener('keydown', e => {
+  if (e.key === 'Enter') calculateAll();
+});
+</script>
 </body>
 </html>
