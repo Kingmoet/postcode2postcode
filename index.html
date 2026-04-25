@@ -7,14 +7,18 @@
     body { font-family: Arial, sans-serif; padding: 20px; }
     input, button { padding: 10px; margin: 5px; }
     #results { margin-top: 20px; }
+
     .card {
       border: 1px solid #ddd;
       padding: 12px;
       margin-bottom: 12px;
       border-radius: 6px;
+      position: relative;
     }
+
     .title { font-weight: bold; }
     .meta { font-size: 14px; color: #555; }
+
     .map-btn {
       margin-top: 8px;
       background-color: #1a73e8;
@@ -24,8 +28,24 @@
       border-radius: 4px;
       cursor: pointer;
     }
-    .map-btn:hover {
-      background-color: #1558b0;
+    .map-btn:hover { background-color: #1558b0; }
+
+    .badge {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: #2e7d32;
+      color: #fff;
+      padding: 4px 8px;
+      font-size: 12px;
+      border-radius: 12px;
+    }
+
+    .recommended {
+      margin-top: 6px;
+      font-size: 14px;
+      color: #2e7d32;
+      font-weight: bold;
     }
   </style>
 </head>
@@ -65,34 +85,23 @@ async function getCoords(postcode) {
     `https://api.postcodes.io/postcodes/${encodeURIComponent(postcode)}`
   );
   const data = await res.json();
-
-  if (data.status !== 200) {
-    throw new Error("Invalid postcode: " + postcode);
-  }
-
-  return {
-    lat: data.result.latitude,
-    lon: data.result.longitude
-  };
+  if (data.status !== 200) throw new Error("Invalid postcode: " + postcode);
+  return { lat: data.result.latitude, lon: data.result.longitude };
 }
 
-// Haversine (km internally)
 function getDistanceKm(lat1, lon1, lat2, lon2) {
   const R = 6371;
   const dLat = (lat2 - lat1) * Math.PI / 180;
   const dLon = (lon2 - lon1) * Math.PI / 180;
-
   const a =
     Math.sin(dLat / 2) ** 2 +
     Math.cos(lat1 * Math.PI / 180) *
     Math.cos(lat2 * Math.PI / 180) *
     Math.sin(dLon / 2) ** 2;
-
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  return R * c;
+  return R * (2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)));
 }
 
-// ---------------- MAIN FUNCTION ----------------
+// ---------------- MAIN ----------------
 async function calculateAll() {
   const fromPostcode = document.getElementById("fromPostcode").value.trim();
   const resultsDiv = document.getElementById("results");
@@ -116,32 +125,29 @@ async function calculateAll() {
         toCoords.lat, toCoords.lon
       );
 
-      const ROUTE_FACTOR = 1.2;
-      const walkingKm = straightKm * ROUTE_FACTOR;
-
+      const walkingKm = straightKm * 1.2;
       const miles = walkingKm * 0.621371;
-      const WALKING_SPEED_KMH = 4.8;
-      const minutes = Math.round((walkingKm / WALKING_SPEED_KMH) * 60);
+      const minutes = Math.round((walkingKm / 4.8) * 60);
 
-      const mapUrl = `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(fromPostcode)}&destination=${encodeURIComponent(place.postcode)}&travelmode=walking`;
+      const mapUrl =
+        `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(fromPostcode)}` +
+        `&destination=${encodeURIComponent(place.postcode)}&travelmode=walking`;
 
-      results.push({
-        ...place,
-        miles,
-        minutes,
-        mapUrl
-      });
+      results.push({ ...place, miles, minutes, mapUrl });
     }
 
     // Sort nearest first
     results.sort((a, b) => a.minutes - b.minutes);
+    const nearestTitle = results[0].title;
 
     resultsDiv.innerHTML = results.map(p => `
       <div class="card">
+        ${p.title === nearestTitle ? `<div class="badge">Nearest centre</div>` : ``}
         <div class="title">${p.title}</div>
         <div class="meta">${p.postcode}</div>
         <div>${p.miles.toFixed(2)} miles</div>
         <div>${p.minutes} minutes walk</div>
+        ${p.title === nearestTitle ? `<div class="recommended">✅ Recommended</div>` : ``}
         <button class="map-btn" onclick="window.open('${p.mapUrl}', '_blank')">
           Open in Google Maps
         </button>
